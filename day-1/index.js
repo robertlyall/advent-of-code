@@ -1,17 +1,13 @@
 const fs = require("fs/promises");
 
 (async () => {
-  const totals = (await fs.readFile("data.txt", "utf-8"))
+  const result = (await fs.readFile("data.txt", "utf-8"))
     .split("\n\n")
-    .map((group) => group.split("\n"))
-    .reduce(
-      (totals, group) => [
-        ...totals,
-        group.reduce((sum, n) => sum + parseInt(n), 0),
-      ],
-      []
-    )
-    .sort((a, b) => b - a);
+    .map((g) => g.split("\n"))
+    .reduce((t, g) => [...t, g.reduce((s, n) => s + +n, 0)], [])
+    .sort((a, b) => b - a)
+    .slice(0, 3)
+    .reduce((s, n) => s + n, 0);
 
-  console.log(totals.slice(0, 3).reduce((sum, n) => sum + n, 0));
+  console.log(result);
 })();
