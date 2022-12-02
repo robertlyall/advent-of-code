@@ -1,5 +1,11 @@
 const fs = require("fs/promises");
 
+const EXPECTED_OUTCOME = Object.freeze({
+  X: "loss",
+  Y: "draw",
+  Z: "win",
+});
+
 const MY_PLAYS = Object.freeze({
   X: "R",
   Y: "P",
@@ -24,29 +30,43 @@ const RESULT_SCORES = Object.freeze({
   win: 6,
 });
 
-const WINNING_PLAYS = Object.freeze(["S P", "P R", "R S"]);
+const LOSS_MAP = Object.freeze({
+  S: "P",
+  P: "R",
+  R: "S",
+});
 
-const isWin = (myPlay, opponentPlay) =>
-  WINNING_PLAYS.includes(`${myPlay} ${opponentPlay}`);
+const WIN_MAP = Object.freeze({
+  S: "R",
+  P: "S",
+  R: "P",
+});
+
+const playForOutcome = (expectedOutcome, opponentPlay) => {
+  if (expectedOutcome === "draw") {
+    return opponentPlay;
+  }
+
+  if (expectedOutcome === "loss") {
+    return LOSS_MAP[opponentPlay];
+  }
+
+  return WIN_MAP[opponentPlay];
+};
 
 (async () => {
   const games = (await fs.readFile("data.txt", "utf-8")).split("\n");
 
   const total = games.reduce((sum, game) => {
-    const [opponentEncryptedPlay, myEncryptedPlay] = game.split(" ");
+    const [opponentEncryptedPlay, expectedOutcomeSymbol] = game.split(" ");
 
-    const myPlay = MY_PLAYS[myEncryptedPlay];
+    const expectedOutcome = EXPECTED_OUTCOME[expectedOutcomeSymbol];
+
     const opponentPlay = OPPONENT_PLAYS[opponentEncryptedPlay];
 
-    let score = PLAY_SCORES[myPlay];
+    const myPlay = playForOutcome(expectedOutcome, opponentPlay);
 
-    if (myPlay === opponentPlay) {
-      score += RESULT_SCORES.draw;
-    } else if (isWin(myPlay, opponentPlay)) {
-      score += RESULT_SCORES.win;
-    } else {
-      score += RESULT_SCORES.loss;
-    }
+    const score = PLAY_SCORES[myPlay] + RESULT_SCORES[expectedOutcome];
 
     return sum + score;
   }, 0);
