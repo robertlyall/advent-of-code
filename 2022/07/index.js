@@ -19,7 +19,7 @@ const parse = (line) => {
       const [, command, argument] = match;
       if (command !== "cd") return;
       if (argument === "..") return current.pop();
-      if (argument === "/") return;
+      if (argument === "/") return (current = []);
       current.push(argument);
       return;
     }
