@@ -28,8 +28,8 @@ const parse = (line) => {
 
     const size = parse(line);
 
-    [...Array(current.length).map((n) => n + 1)].forEach((n) => {
-      const parts = current.slice(0, n);
+    _.times(current.length, (n) => {
+      const parts = current.slice(0, n + 1);
       const path = parts.join("/");
       const value = paths.get(path) || 0;
       paths.set(path, size + value);
