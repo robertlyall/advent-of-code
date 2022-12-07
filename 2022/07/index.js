@@ -10,7 +10,7 @@ const parse = (line) => {
 (async () => {
   const lines = (await fs.readFile(process.argv[2], "utf-8")).split("\n");
 
-  let current = [];
+  let current = [""];
   let paths = new Map();
 
   lines.forEach((line) => {
@@ -19,7 +19,7 @@ const parse = (line) => {
       const [, command, argument] = match;
       if (command !== "cd") return;
       if (argument === "..") return current.pop();
-      if (argument === "/") return (current = []);
+      if (argument === "/") return (current = [""]);
       current.push(argument);
       return;
     }
@@ -41,4 +41,16 @@ const parse = (line) => {
   console.log(
     [...paths.values()].filter((v) => v < 100000).reduce((sum, n) => sum + n, 0)
   );
+
+  const total = 70000000;
+  const required = 30000000;
+
+  const used = paths.get("");
+  const unused = total - used;
+
+  const amount = required - unused;
+
+  const result = _.find(_.sortBy([...paths.values()]), (n) => n > amount);
+
+  console.log(result);
 })();
