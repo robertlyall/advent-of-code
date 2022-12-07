@@ -1,0 +1,28 @@
+{
+  "name": "aoc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robertlyall/advent-of-code-2022.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robertlyall/advent-of-code-2022/issues"
+  },
+  "homepage": "https://github.com/robertlyall/advent-of-code-2022#readme",
+  "devDependencies": {
+    "@types/lodash": "^4.14.191",
+    "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "ramda": "^0.28.0"
+  }
+}

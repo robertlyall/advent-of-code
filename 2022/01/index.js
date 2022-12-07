@@ -1,7 +1,7 @@
 const fs = require("fs/promises");
 
 (async () => {
-  const result = (await fs.readFile("data.txt", "utf-8"))
+  const result = (await fs.readFile("input.txt", "utf-8"))
     .split("\n\n")
     .map((g) => g.split("\n"))
     .reduce((t, g) => [...t, g.reduce((s, n) => s + +n, 0)], [])
