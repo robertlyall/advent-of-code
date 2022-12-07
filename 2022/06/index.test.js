@@ -2,7 +2,7 @@ const _ = require("lodash");
 
 const detect = (buffer) => {
   for (let i = 0; i < buffer.length; i++) {
-    if (i > 3 && _.uniq(buffer.slice(i - 4, i).split("")).length === 4) {
+    if (i > 3 && _.uniq(buffer.slice(i - 14, i).split("")).length === 14) {
       return i;
     }
   }
